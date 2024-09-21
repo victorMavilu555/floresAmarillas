@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flores Amarillas para Jessica</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: black; /* Fondo negro */
+            color: white; /* Texto en blanco */
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            flex-direction: column; /* Disposición en columna */
+            overflow: hidden; /* Evitar scroll en móviles */
+        }
+
+        #video-container {
+            width: 90vw; /* Ancho del contenedor del video */
+            max-width: 800px; /* Tamaño máximo del video */
+            aspect-ratio: 16 / 9; /* Mantener relación de aspecto */
+            margin-bottom: 20px; /* Espacio entre el video y el canvas */
+        }
+
+        #canvas-container {
+            width: 90vw; /* Canvas será el 90% del ancho de la pantalla */
+            max-width: 800px; /* Limitar el tamaño máximo del canvas */
+            height: auto; /* Altura automática para mantener la relación de aspecto */
+            aspect-ratio: 16 / 9; /* Mantener relación de aspecto */
+            position: relative;
+        }
+
+        canvas {
+            width: 100%;
+            height: 100%;
+            border: 1px solid white; /* Borde blanco */
+        }
+
+        h1 {
+            font-size: 6vw; /* Adaptar tamaño del título */
+            margin: 10px 0;
+        }
+
+        p {
+            font-size: 4.5vw; /* Adaptar tamaño del texto */
+            margin: 10px 0;
+            width: 90%;
+            max-width: 800px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="video-container">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/pBmzIIEF0kM?autoplay=1"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <h1>Para Jessica Hernández</h1>
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+    <p>Recordando el día de las flores amarillas, símbolo de amor, esperanza y nuevos comienzos. ¡Que siempre florezcan
+        en nuestro corazón!</p>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const petalCount = 10;
+        const petalRadius = Math.min(canvas.width, canvas.height) * 0.15; // Proporcional al tamaño del canvas
+
+        let drawCentro = [false, false, false];
+        let petalIndices = [0, 0, 0];
+        let drawTallos = [false, false, false];
+
+        const positions = [
+            { x: canvas.width * 0.25, y: canvas.height / 2 },
+            { x: canvas.width * 0.5, y: canvas.height / 2 },
+            { x: canvas.width * 0.75, y: canvas.height / 2 }
+        ];
+
+        function drawStem(x, y) {
+            ctx.strokeStyle = 'green';
+            ctx.lineWidth = 5;
+            ctx.beginPath();
+            ctx.moveTo(x, y + 50);
+            ctx.lineTo(x, canvas.height - 20);
+            ctx.stroke();
+        }
+
+        function drawPetal(x, y, index) {
+            const angle = (Math.PI * 2 / petalCount) * index;
+            const petalX = x + Math.cos(angle) * petalRadius;
+            const petalY = y + Math.sin(angle) * petalRadius;
+
+            ctx.fillStyle = 'yellow';
+            ctx.beginPath();
+            ctx.ellipse(petalX, petalY, petalRadius * 0.8, petalRadius * 0.4, angle, 0, Math.PI * 2); // Tamaño proporcional
+            ctx.fill();
+        }
+
+        function drawCenter(x, y) {
+            ctx.fillStyle = 'brown';
+            ctx.beginPath();
+            ctx.arc(x, y, petalRadius * 0.5, 0, Math.PI * 2); // Centro proporcional
+            ctx.fill();
+        }
+
+        let flowerIndex = 0;
+        function animateFlowers() {
+            const pos = positions[flowerIndex];
+
+            pos.x = canvas.width * ((flowerIndex + 1) * 0.25);
+            pos.y = canvas.height / 2;
+
+            if (!drawTallos[flowerIndex]) {
+                drawStem(pos.x, pos.y);
+                drawTallos[flowerIndex] = true;
+                setTimeout(animateFlowers, 500);
+                return;
+            }
+
+            if (petalIndices[flowerIndex] < petalCount) {
+                drawPetal(pos.x, pos.y, petalIndices[flowerIndex]);
+                petalIndices[flowerIndex]++;
+                setTimeout(animateFlowers, 500);
+                return;
+            }
+
+            if (!drawCentro[flowerIndex]) {
+                drawCenter(pos.x, pos.y);
+                drawCentro[flowerIndex] = true;
+
+                flowerIndex++;
+                if (flowerIndex < positions.length) {
+                    setTimeout(animateFlowers, 1000);
+                }
+            }
+        }
+
+        animateFlowers();
+    </script>
+</body>
+
+</html>
