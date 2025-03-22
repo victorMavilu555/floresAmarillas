@@ -1,0 +1,153 @@
+/* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    overflow: hidden; /* Evita que se muestre el scroll */
+    background-color: #f9f9f9;
+}
+
+/* Sección superior: Rosas y mensaje */
+.top-section {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* Contenedor principal */
+.container {
+    background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%; /* Responsive para móviles */
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+/* Título */
+h1 {
+    color: #ffcc00;
+    font-size: 2rem;
+    margin-bottom: 20px;
+}
+
+/* Imagen de rosas */
+.roses {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    margin: 20px 0;
+    border-radius: 10px;
+}
+
+/* Mensaje */
+.message {
+    font-size: 1.2rem;
+    color: #555;
+    line-height: 1.5;
+    margin: 20px 0;
+}
+
+/* Botón */
+button {
+    background-color: #ffcc00;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    max-width: 200px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #e6b800;
+}
+
+/* Mensaje de amor oculto */
+.hidden {
+    display: none;
+}
+
+#loveMessage {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    margin-top: 20px;
+    animation: fadeIn 1s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Estilos para las rosas que caen */
+.rose {
+    position: absolute;
+    top: -50px;
+    width: 30px;
+    height: 30px;
+    background-image: url('flor1.jpg'); /* Imagen de una rosa amarilla */
+    background-size: cover;
+    animation: fall linear infinite;
+    z-index: 0; /* Asegura que las rosas estén detrás del contenido */
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+    }
+}
+
+/* Sección inferior: Enlace al video de YouTube */
+.video-link {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
+
+.video-link p {
+    font-size: 1.2rem;
+    color: #555;
+}
+
+.video-link a {
+    color: #ffcc00;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.video-link a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive para móviles */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    .message {
+        font-size: 1rem;
+    }
+
+    .video-link p {
+        font-size: 1rem;
+    }
+}
